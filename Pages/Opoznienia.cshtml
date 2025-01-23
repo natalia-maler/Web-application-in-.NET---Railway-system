@@ -1,0 +1,37 @@
+﻿@page
+@model SystemKolejowy.Pages.OpoznieniaModel
+@using SystemKolejowy.Models
+@{
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID Opoznienia</th>
+            <th>ID Rozkladu</th>
+            <th>Czas Opoznienia</th>
+            <th>Powód</th>
+        </tr>
+    </thead>
+     <tbody>
+        @foreach (var opoznienia in Model.opoznienia)
+        {
+                            <tr>
+
+                                <td>@opoznienia.IdOpoznienia</td>
+                                <td>@opoznienia.IdRozkladu</td>
+                                <td>@opoznienia.CzasOpoznienia</td>
+                                <td>@opoznienia.Powod</td>                                     
+                            </tr>
+        }
+    </tbody>
+</table>
+
+<form method="post" asp-page-handler="Anonymize">
+    <button type="submit">Anonimizuj powody</button>
+</form>
+<form method="post" asp-page-handler="DeleteAll">
+    <button type="submit" style="margin-top: 10px;">Usuń wszystkie rekordy</button>
+</form>
+

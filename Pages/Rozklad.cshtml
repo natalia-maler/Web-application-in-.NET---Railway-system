@@ -1,0 +1,86 @@
+﻿@page
+@model SystemKolejowy.Pages.RozkladModel
+@using SystemKolejowy.Models
+@{
+    ViewData["Title"] = "Rozklad";
+}
+<h1>Lista rozkładów</h1>
+
+<!-- Filtrowanie i sortowanie -->
+
+<form method="get">
+    <input type="text" name="SearchQuery" value="@Model.SearchQuery" placeholder="Szukaj stacji..." />
+    <select name="SortOrder">
+        <option value="">Domyślne sortowanie</option>
+        <option value="czas_odjazdu_asc">Czas odjazdu (rosnąco)</option>
+        <option value="czas_odjazdu_desc">Czas odjazdu (malejąco)</option>
+        <option value="stacja_zrodlowa_asc">Stacja źródłowa (A-Z)</option>
+        <option value="stacja_zrodlowa_desc">Stacja źródłowa (Z-A)</option>
+    </select>
+    <button type="submit">Filtruj</button>
+</form>
+<form method="get">
+    <button type="submit" style="margin-top: 10px;">Wyczyść</button>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID Rozkladu</th>
+            <th>ID Pociagu</th>
+            <th>Czas Odjazdu</th>
+            <th>Czas Przyjazdu</th>
+            <th>Stacja Zrodlowa</th>
+            <th>Stacja Docelowa</th>
+            <th>Trasa</th>
+            <th>Numer Peronu</th>
+            <th>Czas Trwania</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Rozklad rozklad in Model.rozklady)
+        {
+                    <tr>
+                        <td>@rozklad.IdRozkladu</td>
+                        <td>@rozklad.IdPociagu</td>  
+                        <td>@rozklad.CzasOdjazdu</td>
+                        <td>@rozklad.CzasPrzyjazdu</td>
+                        <td>@rozklad.StacjaZrodlowa</td>
+                        <td>@rozklad.StacjaDocelowa</td>
+                        <td>@rozklad.Trasa</td>
+                        <td>@rozklad.NumerPeronu</td>
+                        <td>@rozklad.CzasTrwania</td>
+                        <td>
+                                 <!-- Formularz usuwania -->
+                        <form method="post" asp-page-handler="Delete">
+                            <input type="hidden" name="DeleteId" value="@rozklad.IdRozkladu" />
+                            <button type="submit">Usuń</button>
+                        </form>
+                         
+                        </td>
+                    </tr>
+        }
+    </tbody>
+</table>
+
+<p>Dodawanie rekordu</p>
+<form method="post" asp-page-handler="Add">
+    <label>ID Pociągu:</label>
+    <input type="number" name="rozklad.IdPociagu" required />
+    <label>Czas odjazdu:</label>
+    <input type="text" name="rozklad.CzasOdjazdu" required />
+    <label>Czas przyjazdu:</label>
+    <input type="text" name="rozklad.CzasPrzyjazdu" required />
+    <label>Stacja źródłowa:</label>
+    <input type="text" name="rozklad.StacjaZrodlowa" required />
+    <label>Stacja docelowa:</label>
+    <input type="text" name="rozklad.StacjaDocelowa" required />
+    <label>Trasa:</label>
+    <input type="text" name="rozklad.Trasa" />
+    <label>Numer peronu:</label>
+    <input type="number" name="rozklad.NumerPeronu" />
+    <label>Czas trwania:</label>
+    <input type="text" name="rozklad.CzasTrwania"/>
+    <button type="submit">Dodaj</button>
+</form>
+

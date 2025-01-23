@@ -1,0 +1,103 @@
+﻿@page
+@model SystemKolejowy.Pages.PociagiModel
+@using SystemKolejowy.Models <!-- Umożliwia dostęp do klas z przestrzeni nazw -->
+@{
+	ViewData["Title"] = "Pociągi";
+}
+<h1>Lista pociągów</h1>
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    th, td {
+        padding: 10px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    td {
+        border: 1px solid #ddd;
+    }
+    h2 {
+        margin-top: 20px;
+    }
+    /* stylizacja nagłówków, aby zwiększyć odstępy między wyrazami */
+    th {
+        letter-spacing: 2px;
+    }
+    td {
+        letter-spacing: 1px;
+    }
+</style>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID Pociągu</th>
+            <th>Nazwa pociągu</th>
+            <th>Liczba wagonów</th>
+            <th>Typ pociągu</th>
+        </tr>
+    </thead>
+     <tbody>
+        @foreach (Pociagi pociagi in Model.Pociagi)
+        {
+                        <tr>
+
+                            <td>@pociagi.IdPociagu</td>
+                            <td>@pociagi.NazwaPociagu</td>
+                            <td>@pociagi.LiczbaWagonow</td>
+                            <td>@pociagi.TypPociagu</td>   
+                                <td><form method="get">
+                            <input type="hidden" name="SelectedPociagId" value="@pociagi.IdPociagu" />
+                            <button type="submit">Pokaż Rozkłady</button>
+                             </form> 
+                            </td>
+                            
+                        </tr>
+        }
+    </tbody>
+</table>
+
+<!-- przycisk "Wyczyść" -->
+<form method="get">
+    <button type="submit" name="SelectedPociagId" value="">Wyczyść</button>
+</form>
+
+<!-- warunek -gdy wybrany jest pociag, wyswietlana jest lista rozkładów -->
+@if (Model.SelectedPociagId.HasValue) 
+{
+        <h2>Rozkłady dla pociągu ID: @Model.SelectedPociagId</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Stacja źródłowa</th>
+                    <th>Stacja docelowa</th>
+                    <th>Czas odjazdu</th>
+                    <th>Czas przyjazdu</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (Rozklad rozklad in Model.Rozklady)
+            {
+                        <tr>
+                            <td>@rozklad.StacjaZrodlowa</td>
+                            <td>@rozklad.StacjaDocelowa</td>
+                            <td>@rozklad.CzasOdjazdu</td>
+                            <td>@rozklad.CzasPrzyjazdu</td>
+                        </tr>
+            }
+            </tbody>
+        </table>
+}
+else
+{
+        <p>Wybierz pociąg, aby zobaczyć rozkłady.</p>
+}
+
+
+
